@@ -1,12 +1,14 @@
 <template>
   <div style="margin: 10% 30%" class="card">
   <b-card no-body>
+      <center>
+        <div class="workspacde-heading">
+        <h2>{{org_name}}</h2>
+        </div>
+      </center>    
     <div style="margin: 5%">
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
       >
         <b-form-input
           id="input-1"
@@ -14,16 +16,20 @@
           type="email"
           required
           placeholder="Enter email"
+          class="field-style"
+          
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
+      <b-form-group id="input-group-2">
         <b-form-input
           id="input-2"
           v-model="form.password"
           required
           placeholder="Enter Password"
           type='password'
+          class="field-style"
+
         ></b-form-input>
       </b-form-group>
 
@@ -45,6 +51,7 @@ import axios from 'axios'
     name: 'Login',
     data() {
       return {
+        org_name:this.$store.state.login_org_info.name,
         form: {
           email: '',
           password: '',
@@ -76,3 +83,15 @@ import axios from 'axios'
     }
   };
 </script>
+
+<style scoped>
+.field-style{
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: blue;
+}
+.workspacde-heading {
+    margin-top: 5%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+</style>

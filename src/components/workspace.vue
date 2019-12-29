@@ -60,7 +60,7 @@ import axios from 'axios'
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        axios.post(this.$baseUrl + ':8080/workspace', JSON.stringify(this.form))
+        axios.post('http://' + this.$baseUrl + ':8080/workspace', JSON.stringify(this.form))
           .then((result)  => {
             if (result.status === 200) {
               this.$store.commit('AddUserUrl', result.data)

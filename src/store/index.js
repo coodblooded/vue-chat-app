@@ -8,14 +8,18 @@ export default new Vuex.Store ({
         login_user:{
             login:false
         },
-        login_url:"vmitr.com"
+        login_org_info:{
+            login_url:"vmitr.com",
+            name: 'Vmitr'
+        }
+
     },
     mutations: {
         AddUserInfo(state, info){
             state.login_user = info
         },
         AddUserUrl(state, url){
-            state.login_url = url
+            state.login_org_info= url
         }      
     }
 });

@@ -15,17 +15,20 @@
     </h1>
     </div>
         <div class="row text-center btn-style" >
-            <div class="text-center">
-                <router-link to='/register'>
+            <div class="text-center" >
+                <router-link  v-if="urlchk" to='/register'>
                 
                 <v-btn x-large  rounded color="primary" dark >Sing UP</v-btn>
                 </router-link>
                 
             </div>
             <div class="text-center" style="margin:0 0 0 5%">
-                    <router-link to='/workspace'>
+                    <router-link v-if="urlchk" to='/workspace'>
                     <v-btn x-large  rounded color="primary" dark>Login</v-btn>
                     </router-link>     
+                    <router-link v-if="urlchk === false" to='/login'>
+                    <v-btn x-large  rounded color="primary" dark>Login</v-btn>
+                    </router-link>                      
             </div>
         </div>
   </div>
@@ -42,9 +45,33 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { join } from 'path'
+
 export default {
-    name: 'Home'
-};
+    name: 'Home',
+    data () {
+      return {
+        urlchk: this.$baseUrl === 'vmitr.com',
+        org_details: {},
+      }
+    },
+    computed:{
+      GetOrgDetails(){
+          axios.post('http://' + this.$baseUrl + ':8080/get_details', JSON.stringify({'url':this.$baseUrl}))
+          .then((result)  => {
+            if (result.status === 200) {
+              this.$store.commit('AddUserUrl', result.data)
+              this.org_details = result.data
+              return true
+            }
+
+          })
+          .catch(result => console.log(result)) 
+          },
+          
+      }
+    }
 </script>
 
 <style scoped>
