@@ -17,12 +17,12 @@
       <template v-slot:header>
         <h6 class="mb-0">{{name}}</h6>
       </template>
-      <b-card-text style=" height: 400px; overflow-y: scroll;  overflow-x: hidden;" class="scrollable-element">
+      <b-card-text style=" height: 400px; overflow-y: scroll;  overflow-x: hidden;" class="scrollable-element"  id="testing">
         <div v-for="value in message" class="row" style="margin-bottom:3px">
           <div style="margin-left:20px">
             <div class="text-center">
             <v-avatar color="teal" size="40">
-                <span class="white--text headline">{{value.avt}}</span>
+                <span class="white--text">{{value.avt}}</span>
               </v-avatar>
             </div>
           </div>
@@ -82,7 +82,8 @@ export default {
           // {name:'Sandeep', msg:'This is from msag'},
           // {name:'Bot', msg:'This is from  bot'}
         ],
-        socket : io('localhost:8080')
+
+        socket : io(this.$baseUrl + ':8080')
       }
     },
     created () {
@@ -91,6 +92,8 @@ export default {
     updated () {
       
         this.emitSelected()
+        var scl = document.getElementById("testing")
+        scl.scrollTop = scl.scrollHeight
     },    
     computed: {
         info () {

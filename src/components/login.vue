@@ -56,7 +56,7 @@ import axios from 'axios'
       onSubmit(evt) {
         evt.preventDefault()
         evt.preventDefault()
-        axios.post(this.$baseUrl + '/login', JSON.stringify(this.form))
+        axios.post('http://' + this.$baseUrl + ':8080/login', JSON.stringify(this.form))
           .then((result)  => {
             if (result.status === 200) {
               this.$store.commit('AddUserInfo', result.data)

@@ -11,7 +11,7 @@ import { EmojiPickerPlugin } from 'vue-emoji-picker';
 Vue.use(EmojiPickerPlugin)
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
-Vue.prototype.$baseUrl = 'http://localhost:8080'
+Vue.prototype.$baseUrl =  window.location.hostname ;
 new Vue({
   vuetify,
   router,

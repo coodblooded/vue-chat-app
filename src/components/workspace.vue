@@ -60,8 +60,7 @@ import axios from 'axios'
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        evt.preventDefault()
-        axios.post(this.$baseUrl + '/workspace', JSON.stringify(this.form))
+        axios.post(this.$baseUrl + ':8080/workspace', JSON.stringify(this.form))
           .then((result)  => {
             if (result.status === 200) {
               this.$store.commit('AddUserUrl', result.data)
@@ -69,7 +68,8 @@ import axios from 'axios'
             }
 
           })
-          .catch(result => console.log(result))      },
+          .catch(result => console.log(result))      
+        },
       onReset(evt) {
         evt.preventDefault()
         // Reset our form values
