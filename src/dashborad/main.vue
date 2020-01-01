@@ -21,7 +21,7 @@
         <div v-for="value in message" class="row" style="margin-bottom:3px">
           <div style="margin-left:20px">
             <div class="text-center">
-            <v-avatar color="teal" size="40">
+            <v-avatar :color="value.avt_color" size="40">
                 <span class="white--text">{{value.avt}}</span>
               </v-avatar>
             </div>
@@ -78,6 +78,7 @@ export default {
         search: '',
         chat_room:"",
         login_user_info: this.$store.state.login_user,
+        avt_color: ['red', 'green', 'pink', 'indigo', 'teal', 'orange', 'black', 'blue', 'deep-purple', 'cyan'][Math.floor(Math.random() * 10)],
         message: [
           // {name:'Sandeep', msg:'This is from msag'},
           // {name:'Bot', msg:'This is from  bot'}
@@ -96,15 +97,10 @@ export default {
         scl.scrollTop = scl.scrollHeight
     },    
     computed: {
-        info () {
-            const {nameType, id} = this.$route.params; 
-            console.log(nameType, id)
-            this.name = nameType
-
-            return {
-                name: "Sandeep",
-                id: "12345678"
-            }
+        colou_avlr () {
+            const num_r = Math.floor(Math.random() * 10) 
+            var color_list = ['red', 'green', 'pink', 'indigo', 'teal', 'orange', 'black', 'blue', 'deep-purple']
+            return color_list[num_r]
         }
     },
     methods: {
@@ -128,7 +124,8 @@ export default {
                                              hour: "numeric", 
                                              minute: "numeric"}),
           avt: this.login_user_info.avt,
-          room: this.$route.params.nameType
+          room: this.$route.params.nameType,
+          avt_color: this.avt_color
 
           }
         this.socket.emit('my_room_event', data_user);
@@ -146,7 +143,8 @@ export default {
                                              hour: "numeric", 
                                              minute: "numeric"}),
           avt: this.login_user_info.avt,
-          room: this.$route.params.nameType
+          room: this.$route.params.nameType,
+          avt_color: this.avt_color
 
           }         
         this.socket.emit('my_room_event', data_user);
