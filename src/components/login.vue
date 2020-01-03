@@ -49,6 +49,17 @@ import axios from 'axios'
 
   export default {
     name: 'Login',
+    beforeRouteEnter(to, form, next){
+      next(vm => {
+
+        if (window.location.hostname === 'vmitr.com'){
+          vm.$router.push('/workspace')
+        }
+        else {
+          return true
+        }
+          });
+    },    
     data() {
       return {
         org_name:this.$store.state.login_org_info.name,

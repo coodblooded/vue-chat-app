@@ -42,6 +42,7 @@
         max-rows="3"
         no-resize
         v-on:keyup.enter="onEnter"
+        outlined
       ></b-form-textarea>
         <!-- <div style="margin:10px 40%" >
           <b-button   v-if="input.length"  type="Submit" variant="primary" @click='AddNewMessage()'>Send</b-button>

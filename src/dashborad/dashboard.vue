@@ -166,7 +166,18 @@
     </v-btn>
 
       <b-modal id="modal-center" centered title="Add New Team Member">
-    <p class="my-4">Woking on it</p>
+          <b-form-group
+      >
+        <b-form-input
+          id="input-1"
+          v-model="invalit_email"
+          type="email"
+          required
+          placeholder="Enter email"
+          class="field-style"
+          
+        ></b-form-input>
+      </b-form-group>
   </b-modal>
     <v-dialog
       v-model="dialog"
@@ -247,6 +258,7 @@ import Main from './main.vue'
         input: "",
       dialog: false,
       drawer: null,
+      invalit_email:'',
       chn: '',
       items: [
         { icon: 'mdi-contacts', text: 'Contacts',
@@ -293,3 +305,12 @@ import Main from './main.vue'
     }
   }
 </script>
+
+
+<style scoped>
+.field-style{
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: blue;
+}
+</style>
