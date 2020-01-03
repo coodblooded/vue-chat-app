@@ -37,7 +37,7 @@
             <template v-slot:activator>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title >
+                  <v-list-item-title @click="getDashboard()">
                     {{ item.text }}
                   </v-list-item-title>
                 </v-list-item-content>
@@ -152,17 +152,22 @@
         /> -->
         <router-view @returninfo="rdata => text = rdata" :key="$route.fullPath"></router-view>
     </v-content>
-    <!-- <v-btn
+    <v-btn
       bottom
       color="pink"
       dark
       fab
       fixed
       right
-      @click="dialog = !dialog"
+      v-if="this.$router.currentRoute.name === 'Dashboard'"
+      v-b-modal.modal-center
     >
       <v-icon>mdi-plus</v-icon>
-    </v-btn> -->
+    </v-btn>
+
+      <b-modal id="modal-center" centered title="Add New Team Member">
+    <p class="my-4">Woking on it</p>
+  </b-modal>
     <v-dialog
       v-model="dialog"
       width="800px"
@@ -194,6 +199,7 @@
                 <v-text-field
                   v-model="chn"
                   placeholder="Name"
+                  required="true"
                 />
               </v-row>
             </v-col>
@@ -274,11 +280,15 @@ import Main from './main.vue'
             this.$router.push({name:'DashboardIndu',
                               nameType:this.items.text,
                               id:'1234'})
+          
         },
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
           this.chn = ""
           this.dialog = false
+        },
+        getDashboard(){
+           this.$router.push({name:'Dashboard'})
         }
     }
   }
