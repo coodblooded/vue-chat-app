@@ -27,7 +27,7 @@
             </div>
           </div>
           <div style="margin-left:10px;">
-              <p style="font-size:12px"><b>{{value.name}} {{value.time}}</b></p>
+              <p style="font-size:12px" > <b>{{value.name}} {{value.time}}</b></p> 
               <p style="margin-top:-15px"><b>{{value.msg}}</b></p>
           </div>           
         </div>
@@ -140,7 +140,7 @@ export default {
        let data_user = {
           name:this.login_user_info.first_name + ' '+ this.login_user_info.last_name,
           msg: this.input,
-          time:new Date().toLocaleTimeString('en-US', { hour12: false, 
+          time:new Date().toLocaleTimeString('en-US', { hour12: true, 
                                              hour: "numeric", 
                                              minute: "numeric"}),
           avt: this.login_user_info.avt,

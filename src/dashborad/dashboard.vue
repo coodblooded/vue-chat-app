@@ -81,7 +81,6 @@
               dark
               fab
               fixed
-              right
               @click="dialog = !dialog"              
             v-if="item.crt"
               >{{ item.icon }}</v-icon>
@@ -160,14 +159,15 @@
       fixed
       right
       v-if="this.$router.currentRoute.name === 'Dashboard'"
-      v-b-modal.modal-center
+
+      @click="showModal"
     >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
 
-      <b-modal id="modal-center" centered title="Add New Team Member">
-          <b-form-group
-      >
+  <b-modal id="modal-1" centered title="Add New Team Member" cancel-disabled>
+    <div class="d-block">
+            <b-form-group>
         <b-form-input
           id="input-1"
           v-model="invalit_email"
@@ -178,7 +178,22 @@
           
         ></b-form-input>
       </b-form-group>
+    </div>
   </b-modal>
+
+      <!-- <b-modal id="modal-center" centered title="Add New Team Member">
+      <b-form-group>
+        <b-form-input
+          id="input-1"
+          v-model="invalit_email"
+          type="email"
+          required
+          placeholder="Enter email"
+          class="field-style"
+          
+        ></b-form-input>
+      </b-form-group>
+  </b-modal> -->
     <v-dialog
       v-model="dialog"
       width="800px"
@@ -235,6 +250,8 @@
 
 <script>
 import Main from './main.vue'
+import axios from 'axios'
+
   export default {
 
     props: {
@@ -296,12 +313,30 @@ import Main from './main.vue'
         },
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
-          this.chn = ""
           this.dialog = false
+          axios.post('http://' + this.$baseUrl + ':8080/channel', JSON.stringify({"name":this.chn, "organization_id":this.$store.state.login_user.org_id}))
+          .then((result)  => {
+            if (result.status === 200) {
+              console.log(result.data)
+              // this.$store.commit('AddUserInfo', result.data)
+              // this.$router.push({name:'Dashboard'})
+            }
+
+          })
+          .catch(result => console.log(result))
+          this.chn = ""
+
         },
         getDashboard(){
            this.$router.push({name:'Dashboard'})
-        }
+        },
+        showModal() {
+          this.invalit_email = ''
+      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
+    },
+        hideModal() {
+      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+    },
     }
   }
 </script>

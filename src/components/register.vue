@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 10% 30%" class="card">
   <b-card no-body>
-          <center>
+      <center>
         <div class="workspacde-heading">
         <h2>Create  your workspace</h2>
         </div>
