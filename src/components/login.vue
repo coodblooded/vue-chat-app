@@ -62,7 +62,7 @@ import axios from 'axios'
     },    
     data() {
       return {
-        org_name:this.$store.state.login_org_info.name,
+        org_name:this.$store.state.user.login_org_info.name,
         form: {
           email: '',
           password: '',
@@ -73,16 +73,22 @@ import axios from 'axios'
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        evt.preventDefault()
-        axios.post('http://' + this.$baseUrl + ':8080/login', JSON.stringify(this.form))
-          .then((result)  => {
-            if (result.status === 200) {
-              this.$store.commit('AddUserInfo', result.data)
+        this.$store.dispatch('user/UserLogin', JSON.stringify(this.form))
+          .then(() => {
               this.$router.push({name:'Dashboard'})
-            }
-
           })
-          .catch(result => console.log(result))      },
+          .catch(result => console.log(result))      
+          },
+
+        // axios.post('http://' + this.$baseUrl + ':8080/login', JSON.stringify(this.form))
+        //   .then((result)  => {
+        //     if (result.status === 200) {
+        //       this.$store.commit('user/AddUserInfo', result.data)
+        //       this.$router.push({name:'Dashboard'})
+        //     }
+
+        //   })
+        //   .catch(result => console.log(result))      },
       onReset(evt) {
         evt.preventDefault()
         // Reset our form values

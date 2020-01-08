@@ -56,6 +56,7 @@
 
 <script>
 import io from 'socket.io-client';
+import axios from 'axios'
 
 export default {
     name: 'Main',
@@ -63,7 +64,7 @@ export default {
 
     beforeRouteEnter(to, form, next){
       next(vm => {
-        var isValidUser = vm.$store.state.login_user.login
+        var isValidUser = vm.$store.state.user.login_user.login
         if (isValidUser){
           return true
         }
@@ -78,7 +79,7 @@ export default {
         name: this.$route.params.nameType,
         search: '',
         chat_room:"",
-        login_user_info: this.$store.state.login_user,
+        login_user_info: this.$store.state.user.login_user,
         avt_color: ['red', 'green', 'pink', 'indigo', 'teal', 'orange', 'black', 'blue', 'deep-purple', 'cyan'][Math.floor(Math.random() * 10)],
         message: [
           // {name:'Sandeep', msg:'This is from msag'},

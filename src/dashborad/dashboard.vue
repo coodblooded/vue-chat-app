@@ -262,7 +262,7 @@ import axios from 'axios'
     },
     beforeRouteEnter(to, form, next){
       next(vm => {
-        var isValidUser = vm.$store.state.login_user.login
+        var isValidUser = vm.$store.state.user.login_user.login
         if (isValidUser){
           return true
         }
@@ -271,8 +271,10 @@ import axios from 'axios'
         }
           });
     },
-    data: () => ({
-        input: "",
+    data() { 
+      return {
+      login_user_info: this.$store.state.user.login_user,
+      input: "",
       dialog: false,
       drawer: null,
       invalit_email:'',
@@ -298,14 +300,28 @@ import axios from 'axios'
           model: false,
           crt:false,
           children: [
-            { text: 'VmitrBot' }
           ],
         },
         { icon: 'mdi-message', text: 'Send feedback',crt:false }
       ],
-    }),
+      }
+    },
+    created(){
+          let user_id = this.$store.state.user.login_user.user_id
+          let ord_id = this.$store.state.user.login_user.org_id
+          if (this.$store.state.user.login_user.login) {
+          this.$store.dispatch('dash/GetAllChannel',  {"user_id":user_id, "org_id":ord_id})
+            .then(() => {
+                console.log("ddd")
+                this.items[3].children =  this.$store.state.dash.org_channels
+            })
+            .catch(() => console.log("eroro"))
+          }
+          return true
+    },
     methods: {
         selectinfo () {
+          
             this.$router.push({name:'DashboardIndu',
                               nameType:this.items.text,
                               id:'1234'})
@@ -314,7 +330,7 @@ import axios from 'axios'
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
           this.dialog = false
-          axios.post('http://' + this.$baseUrl + ':8080/channel', JSON.stringify({"name":this.chn, "organization_id":this.$store.state.login_user.org_id}))
+          axios.post('http://' + this.$baseUrl + ':8080/channel', JSON.stringify({"name":this.chn, "organization_id":this.$store.state.user.login_user.org_id}))
           .then((result)  => {
             if (result.status === 200) {
               console.log(result.data)
@@ -328,7 +344,8 @@ import axios from 'axios'
 
         },
         getDashboard(){
-           this.$router.push({name:'Dashboard'})
+          if (this.$route.name !== 'Dashboard') this.$router.push({name:'Dashboard'})
+           
         },
         showModal() {
           this.invalit_email = ''

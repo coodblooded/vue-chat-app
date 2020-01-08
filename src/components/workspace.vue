@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
   export default {
     name: 'WorkSpace',
@@ -60,15 +59,21 @@ import axios from 'axios'
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        axios.post('http://' + this.$baseUrl + ':8080/workspace', JSON.stringify(this.form))
-          .then((result)  => {
-            if (result.status === 200) {
-              this.$store.commit('AddUserUrl', result.data)
-              document.location.href = 'http://' +  result.data.login_url
-            }
 
+        this.$store.dispatch('user/WorkSpace',  JSON.stringify(this.form))
+          .then(()  => {
+              document.location.href = 'http://' +  this.$store.state.user.login_org_info.login_url
           })
-          .catch(result => console.log(result))      
+          .catch(result => console.log(result))           
+          //  axios.post('http://' + this.$baseUrl + ':8080/workspace', JSON.stringify(this.form))
+          // .then((result)  => {
+          //   if (result.status === 200) {
+          //     this.$store.commit('AddUserUrl', result.data)
+          //     document.location.href = 'http://' +  result.data.login_url
+          //   }
+
+          // })
+          // .catch(result => console.log(result))      
         },
       onReset(evt) {
         evt.preventDefault()

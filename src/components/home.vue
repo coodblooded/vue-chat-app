@@ -58,16 +58,21 @@ export default {
     },
     computed:{
       GetOrgDetails(){
-          axios.post('http://' + this.$baseUrl + ':8080/get_details', JSON.stringify({'url':this.$baseUrl}))
-          .then((result)  => {
-            if (result.status === 200) {
-              this.$store.commit('AddUserUrl', result.data)
-              this.org_details = result.data
-              return true
-            }
+          this.$store.dispatch('user/GetOrgDetail', JSON.stringify({'url':this.$baseUrl}))
+            .then(() => {
+              this.org_details = this.$store.state.user.login_org_info
+            })
+            .catch(result => console.log(result)) 
+          // axios.post('http://' + this.$baseUrl + ':8080/get_details', JSON.stringify({'url':this.$baseUrl}))
+          // .then((result)  => {
+          //   if (result.status === 200) {
+          //     this.$store.commit('user/AddUserUrl', result.data)
+          //     this.org_details = result.data
+          //     return true
+          //   }
 
-          })
-          .catch(result => console.log(result)) 
+          // })
+          // .catch(result => console.log(result)) 
           },
           
       }

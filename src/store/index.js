@@ -1,26 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import user from '../store/modules/user'
+import dashboard from '../store/modules/dashboard'
 Vue.use(Vuex);
 
 export default new Vuex.Store ({
-    state: {
-        login_user:{
-            login:false
-        },
-        login_org_info:{
-            login_url:"vmitr.com",
-            name: 'Vmitr'
-        }
-
-    },
-    mutations: {
-        AddUserInfo(state, info){
-            state.login_user = info
-        },
-        AddUserUrl(state, url){
-            state.login_org_info= url
-        }      
+    modules: {
+        'user': user,
+        'dash': dashboard
     }
 });
 
