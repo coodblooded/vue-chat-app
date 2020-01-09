@@ -52,7 +52,6 @@
                 <v-icon>{{ child.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-  
                 <v-list-item-title style="margin-left:5%" >
                     <v-avatar color="blue" size="48" v-if="child.avt">
                         <span class="white--text headline" style="margin:0 10% 0 0">{{ child.avt }}</span>
@@ -61,13 +60,34 @@
                                     params: {
                                     nameType: child.text,
                                     id: '2455'
-                                    }}" exact>
+                                    }}" exact style="margin-right:10px;">
                                {{ child.text }}
                 </router-link>
-                 
+                
                 </v-list-item-title>
+                
               </v-list-item-content>
-            </v-list-item>
+              <v-menu bottom left>
+                        <template v-slot:activator="{ on }">
+                          <v-btn
+                            dark
+                            icon
+                            v-on="on"
+                          >
+                            <v-icon style="color:black;">mdi-dots-vertical</v-icon>
+                          </v-btn>
+                        </template>
+
+                        <v-list>
+                          <v-list-item
+                            v-for="(item, i) in items_action"
+                            :key="i"
+                            @click=""
+                          >
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                  </v-menu>             </v-list-item>
           </v-list-group>
           <v-list-item
             v-else
@@ -278,6 +298,11 @@ import axios from 'axios'
       dialog: false,
       drawer: null,
       invalit_email:'',
+      items_action: [
+        { title: 'Remove' },
+        { title: 'Update' },
+        { title: 'Change' },
+      ],
       chn: '',
       items: [
         { icon: 'mdi-contacts', text: 'Contacts',
