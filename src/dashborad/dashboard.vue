@@ -74,7 +74,7 @@
                             icon
                             v-on="on"
                           >
-                            <v-icon style="color:black;">mdi-dots-vertical</v-icon>
+                            <v-icon style="color:gray;">mdi-dots-vertical</v-icon>
                           </v-btn>
                         </template>
 
@@ -87,7 +87,8 @@
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                           </v-list-item>
                         </v-list>
-                  </v-menu>             </v-list-item>
+                  </v-menu>        
+                   </v-list-item>
           </v-list-group>
           <v-list-item
             v-else
