@@ -53,8 +53,8 @@
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title style="margin-left:5%" >
-                    <v-avatar color="blue" size="48" v-if="child.avt">
-                        <span class="white--text headline" style="margin:0 10% 0 0">{{ child.avt }}</span>
+                    <v-avatar color="blue" size="40" v-if="child.avt">
+                        <span class="white--text" style="margin:0 10% 0 0">{{ child.avt }}</span>
                     </v-avatar>
                 <router-link :to="{name: 'DashboardIndu',
                                     params: {
@@ -78,15 +78,24 @@
                           </v-btn>
                         </template>
 
-                        <v-list>
-                          <v-list-item
+                        <v-list v-if="item.chnl">
+                          <v-list-item 
                             v-for="(item, i) in items_action"
                             :key="i"
-                            @click=""
+                            @click="item.mth({'chn_id':child.id})"
                           >
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                           </v-list-item>
                         </v-list>
+                        <v-list v-else>
+                        <v-list-item 
+                            v-for="(item, i) in frnd_actions"
+                            :key="i"
+                            @click="item.mth({'frn_id':child.id})"
+                          >
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                          </v-list-item>
+                        </v-list>                        
                   </v-menu>        
                    </v-list-item>
           </v-list-group>
@@ -300,9 +309,13 @@ import axios from 'axios'
       drawer: null,
       invalit_email:'',
       items_action: [
-        { title: 'Remove' },
-        { title: 'Update' },
-        { title: 'Change' },
+        { title: 'Remove', mth: this.RemoveTest },
+        { title: 'Update', mth:'Update' },
+        { title: 'Add ' },
+      ],
+      frnd_actions:[
+        { title: 'Remove', mth:this.RemoveTest },
+        { title: 'Update', mth:'Update' },        
       ],
       chn: '',
       items: [
@@ -324,6 +337,7 @@ import axios from 'axios'
           'icon-alt': 'mdi-chevron-down',
           text: 'Channels',
           model: false,
+          chnl: true,
           crt:false,
           children: [
           ],
@@ -375,11 +389,28 @@ import axios from 'axios'
         },
         showModal() {
           this.invalit_email = ''
-      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
-    },
+          this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
+        },
         hideModal() {
-      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
-    },
+          this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+        },
+        RemoveTest(obj){
+          console.log(obj)
+            this.$store.dispatch('dash/DeleteChannel', obj)
+              .then((result) => {
+                if(result.status === 203){
+                    let user_id = this.login_user_info.user_id
+                    let ord_id = this.login_user_info.org_id
+                    this.$store.dispatch('dash/GetAllChannel',  {"user_id":user_id, "org_id":ord_id})
+                      .then(() => {
+                          console.log("get changes dd")
+                          this.items[3].children =  this.$store.state.dash.org_channels
+                      })
+                      .catch(() => console.log("Get Error"))
+                    }                    
+              })
+              .catch(() => console.log("Delete Error"))
+        }
     }
   }
 </script>

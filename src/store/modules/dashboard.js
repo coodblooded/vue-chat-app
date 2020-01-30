@@ -9,7 +9,7 @@ export default {
     mutations: {
         UpdateChannel(state, info){
             console.log("indp",info)
-            state.org_channels = [...state.org_channels].concat(info)
+            state.org_channels = [].concat(info)
         },
         
 
@@ -29,6 +29,11 @@ export default {
                     commit('UpdateChannel',result.data)
                 })
                 .catch(result => console.log(result))
-        }
+        },
+        DeleteChannel({commit}, chl_info){
+            console.log("form statte", chl_info)
+            return axios.post('http://' + window.location.hostname + ':8080/channel_dlt', JSON.stringify(chl_info))
+            then((result))
+        },
     }
 }
