@@ -3,13 +3,13 @@ import axios from 'axios';
 export default {
     namespaced: true,
     state: {
-        org_channels:[{ text: 'VmitrBot' }],
+        org_channels:[],
         ord_firends:[]
     },
     mutations: {
         UpdateChannel(state, info){
             console.log("indp",info)
-            state.org_channels = [].concat(info)
+            state.org_channels = [{ text: 'VmitrBot' }].concat(info)
         },
         
 
@@ -33,7 +33,12 @@ export default {
         DeleteChannel({commit}, chl_info){
             console.log("form statte", chl_info)
             return axios.post('http://' + window.location.hostname + ':8080/channel_dlt', JSON.stringify(chl_info))
-            then((result))
+            .then((result))
         },
+        InvaiteUser(info){
+            console.log("form statte", info)
+            return axios.post('http://' + window.location.hostname + ':8080/invite', JSON.stringify(info))
+            .then((result))
+        }
     }
 }

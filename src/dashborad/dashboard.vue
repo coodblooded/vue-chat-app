@@ -195,7 +195,7 @@
       <v-icon>mdi-plus</v-icon>
     </v-btn>
 
-  <b-modal id="modal-1" centered title="Add New Team Member" cancel-disabled>
+  <b-modal ref="modal-1" id="modal-1" centered title="Add New Team Member" cancel-disabled no-close-on-backdrop>
     <div class="d-block">
             <b-form-group>
         <b-form-input
@@ -209,6 +209,9 @@
         ></b-form-input>
       </b-form-group>
     </div>
+     <div slot="modal-footer">
+            <b-btn variant="primary" @click="InviteFirnds">Send Invite</b-btn>
+       </div>
   </b-modal>
 
       <!-- <b-modal id="modal-center" centered title="Add New Team Member">
@@ -366,6 +369,10 @@ import axios from 'axios'
                               nameType:this.items.text,
                               id:'1234'})
           
+        },
+        InviteFirnds(){
+          console.log("Send Email to user")
+           this.$refs['modal-1'].hide()
         },
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
