@@ -210,7 +210,7 @@
       </b-form-group>
     </div>
      <div slot="modal-footer">
-            <b-btn variant="primary" @click="InviteFirnds">Send Invite</b-btn>
+            <b-btn variant="primary" @click="InviteFirnds()">Send Invite</b-btn>
        </div>
   </b-modal>
 
@@ -372,7 +372,13 @@ import axios from 'axios'
         },
         InviteFirnds(){
           console.log("Send Email to user")
-           this.$refs['modal-1'].hide()
+          axios.post('http://' + window.location.hostname + ':8080/invite', JSON.stringify({"user_email":this.invalit_email,"organization_id":this.$store.state.user.login_user.org_id}))
+            .then(() => {
+                console.log("Successfully Send the Invite to user")
+                this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+            })
+            .catch(() => console.log("eroro"))  
+            console.log("Send ss to user")        
         },
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
@@ -384,7 +390,6 @@ import axios from 'axios'
               // this.$store.commit('AddUserInfo', result.data)
               // this.$router.push({name:'Dashboard'})
             }
-
           })
           .catch(result => console.log(result))
           this.chn = ""
@@ -401,6 +406,7 @@ import axios from 'axios'
         hideModal() {
           this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
         },
+
         RemoveTest(obj){
           console.log(obj)
             this.$store.dispatch('dash/DeleteChannel', obj)

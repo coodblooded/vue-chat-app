@@ -35,9 +35,9 @@ export default {
             return axios.post('http://' + window.location.hostname + ':8080/channel_dlt', JSON.stringify(chl_info))
             .then((result))
         },
-        InvaiteUser(info){
+        InviteUser({commit}, info){
             console.log("form statte", info)
-            return axios.post('http://' + window.location.hostname + ':8080/invite', JSON.stringify(info))
+            axios.post('http://' + window.location.hostname + ':8080/invite', JSON.stringify(info))
             .then((result))
         }
     }
