@@ -9,6 +9,7 @@ import register from '../components/register.vue'
 import dashboard from '../dashborad/dashboard.vue'
 import Main from '../dashborad/main.vue'
 import WorkSpace from '../components/workspace.vue'
+import Confirm from '../components/confirm.vue'
 Vue.use(Router)
 
 export default new Router ({
@@ -33,7 +34,12 @@ export default new Router ({
           path: '/register',
           name: 'Register',
           component: register
-        },         
+        },     
+        {
+          path: '/confirm/:org_id/:user_id',
+          name: 'Confirm',
+          component: Confirm
+        },             
         {
           path: '/dashboard',
           name: 'Dashboard',

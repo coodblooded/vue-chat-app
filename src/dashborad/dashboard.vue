@@ -359,8 +359,16 @@ import axios from 'axios'
                 this.items[3].children =  this.$store.state.dash.org_channels
             })
             .catch(() => console.log("eroro"))
+          this.$store.dispatch('dash/GetAllFriends',  {"user_id":user_id, "org_id":ord_id})
+            .then(() => {
+                console.log("get firnds")
+                this.items[0].children =  this.$store.state.dash.org_firends
+            })
+            .catch(() => console.log("eroro"))
+            
+          return true            
           }
-          return true
+
     },
     methods: {
         selectinfo () {
