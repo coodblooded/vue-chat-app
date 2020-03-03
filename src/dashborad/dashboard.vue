@@ -82,7 +82,7 @@
                           <v-list-item 
                             v-for="(item, i) in items_action"
                             :key="i"
-                            @click="item.mth({'chn_id':child.id})"
+                            @click="item.mth({'chn_id':child.chn_id})"
                           >
                             <v-list-item-title>{{ item.title }}</v-list-item-title>
                           </v-list-item>
@@ -144,14 +144,7 @@
       >
         <span class="hidden-sm-and-down">Welcome Vmitr</span>
       </v-toolbar-title>
-      <!-- <v-text-field
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        label="Search"
-        class="hidden-sm-and-down"
-      /> -->
+
       <v-spacer />
       <v-btn icon>
         <v-icon>mdi-apps</v-icon>
@@ -175,12 +168,10 @@
     </v-app-bar>
     <v-content>
 
-        <!-- <Main 
-        :info="text"
-        @returninfo="rdata => text = rdata"
-        /> -->
         <router-view @returninfo="rdata => text = rdata" :key="$route.fullPath"></router-view>
+
     </v-content>
+
     <v-btn
       bottom
       color="pink"
@@ -214,19 +205,6 @@
        </div>
   </b-modal>
 
-      <!-- <b-modal id="modal-center" centered title="Add New Team Member">
-      <b-form-group>
-        <b-form-input
-          id="input-1"
-          v-model="invalit_email"
-          type="email"
-          required
-          placeholder="Enter email"
-          class="field-style"
-          
-        ></b-form-input>
-      </b-form-group>
-  </b-modal> -->
     <v-dialog
       v-model="dialog"
       width="800px"
@@ -284,14 +262,15 @@
 <script>
 import Main from './main.vue'
 import axios from 'axios'
-
+import AddUserChannel from '../components/AddUserInChannel.vue'
   export default {
 
     props: {
       source: String,
     },
     components:{
-      Main
+      Main,
+      AddUserChannel
     },
     beforeRouteEnter(to, form, next){
       next(vm => {
@@ -314,7 +293,7 @@ import axios from 'axios'
       items_action: [
         { title: 'Remove', mth: this.RemoveTest },
         { title: 'Update', mth:'Update' },
-        { title: 'Add ' },
+        { title: 'Add', mth: this.AddNewUsrs },
       ],
       frnd_actions:[
         { title: 'Remove', mth:this.RemoveTest },
@@ -355,7 +334,6 @@ import axios from 'axios'
           if (this.$store.state.user.login_user.login) {
           this.$store.dispatch('dash/GetAllChannel',  {"user_id":user_id, "org_id":ord_id})
             .then(() => {
-                console.log("ddd")
                 this.items[3].children =  this.$store.state.dash.org_channels
             })
             .catch(() => console.log("eroro"))
@@ -371,18 +349,15 @@ import axios from 'axios'
 
     },
     methods: {
-        selectinfo () {
-          
+        selectinfo () {          
             this.$router.push({name:'DashboardIndu',
                               nameType:this.items.text,
-                              id:'1234'})
-          
+                              id:'1234'})          
         },
         InviteFirnds(){
           console.log("Send Email to user")
           axios.post('http://' + window.location.hostname + ':8080/invite', JSON.stringify({"user_email":this.invalit_email,"organization_id":this.$store.state.user.login_user.org_id}))
-            .then(() => {
-                console.log("Successfully Send the Invite to user")
+            .then(() => {                
                 this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
             })
             .catch(() => console.log("eroro"))  
@@ -391,12 +366,10 @@ import axios from 'axios'
         AddNewChannel(){
           this.items[3].children.push({text:this.chn})
           this.dialog = false
-          axios.post('http://' + this.$baseUrl + ':8080/channel', JSON.stringify({"name":this.chn, "organization_id":this.$store.state.user.login_user.org_id}))
+          axios.post('http://' + this.$baseUrl + ':8080/channel', JSON.stringify({"name":this.chn, "organization_id":this.$store.state.user.login_user.org_id, "user_id":this.$store.state.user.login_user.user_id}))
           .then((result)  => {
             if (result.status === 200) {
               console.log(result.data)
-              // this.$store.commit('AddUserInfo', result.data)
-              // this.$router.push({name:'Dashboard'})
             }
           })
           .catch(result => console.log(result))
@@ -416,7 +389,6 @@ import axios from 'axios'
         },
 
         RemoveTest(obj){
-          console.log(obj)
             this.$store.dispatch('dash/DeleteChannel', obj)
               .then((result) => {
                 if(result.status === 203){
@@ -424,13 +396,19 @@ import axios from 'axios'
                     let ord_id = this.login_user_info.org_id
                     this.$store.dispatch('dash/GetAllChannel',  {"user_id":user_id, "org_id":ord_id})
                       .then(() => {
-                          console.log("get changes dd")
                           this.items[3].children =  this.$store.state.dash.org_channels
                       })
                       .catch(() => console.log("Get Error"))
                     }                    
               })
               .catch(() => console.log("Delete Error"))
+        },
+        AddNewUsrs(obj){
+          let path = `/dashboard/channel/${obj.chn_id}` 
+          if (this.$route.path !== path){
+          this.$router.push({ name:'AddNewUserInChannel', params:{ id: obj.chn_id}})
+
+          }
         }
     }
   }

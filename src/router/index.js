@@ -10,6 +10,7 @@ import dashboard from '../dashborad/dashboard.vue'
 import Main from '../dashborad/main.vue'
 import WorkSpace from '../components/workspace.vue'
 import Confirm from '../components/confirm.vue'
+import AddUserChannel from '../components/AddUserInChannel.vue'
 Vue.use(Router)
 
 export default new Router ({
@@ -46,11 +47,17 @@ export default new Router ({
           component: dashboard,
           children: [
             {
+              path: '/dashboard/channel/adduser/:id',
+              name: 'AddNewUserInChannel',
+              component: AddUserChannel
+   
+            } ,            
+            {
               path: '/dashboard/:nameType/:id',
               name: 'DashboardIndu',
               component: Main
    
-            }
+            }           
           ],          
         }                         
     ]

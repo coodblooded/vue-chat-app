@@ -8,7 +8,8 @@ export default {
     },
     mutations: {
         UpdateChannel(state, info){
-            state.org_channels = [{ text: 'VmitrBot' }].concat(info)
+            console.log("ddd",info)
+            state.org_channels = [{ text: 'VmitrBot', 'chn_id':0 }].concat(info)
         },
         UpdateFirends(state, info){
             state.org_firends = [].concat(info)
