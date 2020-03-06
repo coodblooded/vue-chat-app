@@ -9,20 +9,48 @@
           label="Select"
           required
         ></v-select> 
-        <v-list>
-   <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-        >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        </v-list>                   
+            
         </v-card-text>
+            <!-- <b-list-group v-for="(chk, i) in chn_frnds" :key="i">
+
+            <b-list-group-item href="#some-link">{{chk.first_name + ' ' + chk.last_name}} </b-list-group-item>
+            </b-list-group> -->
+<v-list shaped>
+      <v-list-item-group
+        v-model="model"
+        multiple
+      >
+        <template v-for="(item, i) in chn_frnds">
+          <v-divider
+            v-if="!item.first_name"
+            :key="`divider-${i}`"
+          ></v-divider>
+
+          <v-list-item
+            v-else
+            :key="`item-${i}`"
+            :value="item.first_name"
+            active-class="deep-purple--text text--accent-4"
+          >
+            <template v-slot:default="{ active, toggle }">
+              <v-list-item-content>
+                <v-list-item-title v-text="item.first_name"></v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-checkbox
+                  :input-value="active"
+                  :true-value="item.first_name"
+                  color="deep-purple accent-4"
+                  @click="toggle"
+                ></v-checkbox>
+              </v-list-item-action>
+            </template>
+          </v-list-item>
+        </template>
+      </v-list-item-group>
+    </v-list>            
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
@@ -49,15 +77,11 @@
     },      
     data () {
       return {
+        selected: [],
         dialog: true,
         items: [...this.$store.state.dash.org_firends.filter((item) => item.name)],
         select:null,
-        chn_frnds:[
-        {
-          icon: 'mdi-inbox',
-          text: 'Inbox',
-        }
-        ],
+        chn_frnds:[...this.$store.state.dash.org_channels.filter((item) => item.chn_id == this.$route.params.id)][0].user_in_chn,
         model: 1,
       }
     },

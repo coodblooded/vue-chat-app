@@ -104,7 +104,7 @@
    font-weight: bolder;
 }
 .rta{
-    direction: rtl;
+    text-align: right;
     outline: 0;
     border-width: 0 0 2px;
     border-color: blue;
