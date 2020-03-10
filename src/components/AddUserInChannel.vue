@@ -11,15 +11,10 @@
         ></v-select> 
             
         </v-card-text>
-            <!-- <b-list-group v-for="(chk, i) in chn_frnds" :key="i">
-
-            <b-list-group-item href="#some-link">{{chk.first_name + ' ' + chk.last_name}} </b-list-group-item>
-            </b-list-group> -->
 <v-list shaped>
       <v-list-item-group
         v-model="model"
-        multiple
-      >
+        multiple>
         <template v-for="(item, i) in chn_frnds">
           <v-divider
             v-if="!item.first_name"
@@ -85,5 +80,8 @@
         model: 1,
       }
     },
+    methods:{
+
+    }
   }
 </script>
