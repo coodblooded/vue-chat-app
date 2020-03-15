@@ -8,6 +8,7 @@
           :items="items"
           label="Select"
           required
+          @change="AddNew($event)"
         ></v-select> 
             
         </v-card-text>
@@ -27,17 +28,17 @@
             :value="item.first_name"
             active-class="deep-purple--text text--accent-4"
           >
-            <template v-slot:default="{ active, toggle }">
+            <template>
               <v-list-item-content>
                 <v-list-item-title v-text="item.first_name"></v-list-item-title>
               </v-list-item-content>
 
               <v-list-item-action>
                 <v-checkbox
-                  :input-value="active"
+                  :input-value="true"
                   :true-value="item.first_name"
                   color="deep-purple accent-4"
-                  @click="toggle"
+                  @click="toggle1($event)"
                 ></v-checkbox>
               </v-list-item-action>
             </template>
@@ -46,11 +47,6 @@
       </v-list-item-group>
     </v-list>            
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
@@ -74,14 +70,23 @@
       return {
         selected: [],
         dialog: true,
-        items: [...this.$store.state.dash.org_firends.filter((item) => item.name)],
+        items: this.$store.state.dash.org_firends.map(item => item.name),
         select:null,
         chn_frnds:[...this.$store.state.dash.org_channels.filter((item) => item.chn_id == this.$route.params.id)][0].user_in_chn,
         model: 1,
       }
     },
     methods:{
+        toggle1(e){
+            
+            e.stopPropagation()
+            console.log("dcdscdsckdskc", e)
+        },
+        AddNew(e){
+            console.log("dcdcds", e)
 
+            this.chn_frnds.push({'first_name':e})
+        }
     }
   }
 </script>
